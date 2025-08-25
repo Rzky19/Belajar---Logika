@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>alooo, semangatt teruss yaaa, semoga bisa memperbaiki mood kamu</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(270deg, #000000, #220011, #440022, #220011);
+      background-size: 600% 600%;
+      animation: bgMove 12s ease infinite;
+      color: red;
+      font-family: monospace;
+      white-space: pre;
+      font-size: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    @keyframes bgMove {
+      0% {background-position:0% 50%}
+      50% {background-position:100% 50%}
+      100% {background-position:0% 50%}
+    }
+
+    #heart {
+      text-align: center;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%   { color: #ff4d4d; }
+      50%  { color: #ff1a75; }
+      100% { color: #ff4d4d; }
+    }
+
+    #msg {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #ffcccc;
+      text-align: center;
+    }
+
+    #play-btn {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #ff1a75;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(255,26,117,0.6);
+    }
+  </style>
+</head>
+<body>
+  <!-- Musik background -->
+  <audio id="bg-music" preload="auto" loop>
+    <source src="musik.mp3" type="audio/mpeg">
+  </audio>
+
+  <button id="play-btn">💌 Buka Pesan</button>
+
+  <div id="heart"></div>
+  <div id="msg"></div>
+
+  <script>
+    const bgMusic = document.getElementById("bg-music");
+    const playBtn = document.getElementById("play-btn");
+
+    playBtn.addEventListener("click", () => {
+      bgMusic.play();
+      playBtn.style.display = 'none'; // sembunyikan tombol setelah diklik
+    });
+
+    // Generate ASCII heart
+    let lines = [];
+    for (let y = 1.5; y > -1.5; y -= 0.1) {
+      let row = "";
+      for (let x = -1.5; x < 1.5; x += 0.05) {
+        let a = x * x + y * y - 1;
+        row += (a * a * a - x * x * y * y * y <= 0.0) ? "*" : " ";
+      }
+      lines.push(row);
+    }
+
+    let output = "";
+    let i = 0;
+    let heartDiv = document.getElementById("heart");
+
+    // Animasi hati baris demi baris
+    let interval = setInterval(() => {
+      if (i < lines.length) {
+        output += lines[i] + "\n";
+        heartDiv.textContent = output;
+        i++;
+      } else {
+        clearInterval(interval);
+        showMessage();
+      }
+    }, 80);
+
+    // Typing effect untuk pesan motivasi
+    function showMessage() {
+      let text = "semangattt terus yaa, i always stand front to support you ❤️";
+      let j = 0;
+      let msgDiv = document.getElementById("msg");
+
+      function typeWriter() {
+        if (j < text.length) {
+          msgDiv.textContent += text.charAt(j);
+          j++;
+          setTimeout(typeWriter, 80);
+        }
+      }
+      typeWriter();
+    }
+  </script>
+</body>
+</html>
